@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+.venv/
+src/.venv/
+venv/
+
+# Data files (too large for git)
+data/train.csv
+data/test.csv
+
+# Outputs (generated files)
+outputs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
