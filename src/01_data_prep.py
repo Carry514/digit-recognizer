@@ -27,18 +27,20 @@ DATA_DIR = "../data/"
 train_df = pd.read_csv(DATA_DIR + "train.csv")
 test_df  = pd.read_csv(DATA_DIR + "test.csv")
 
-print("=" * 50)
-print("1.1 加载数据")
-print(f"  训练集: {train_df.shape}")   # (42000, 785)
-print(f"  测试集: {test_df.shape}")    # (28000, 784)
+if __name__ == "__main__":
+    print("=" * 50)
+    print("1.1 加载数据")
+    print(f"  训练集: {train_df.shape}")
+    print(f"  测试集: {test_df.shape}")
 
 
 # ============================================================
 # 1.2 检查缺失值
 # ============================================================
-print("\n1.2 检查缺失值")
-print(f"  训练集缺失值总数: {train_df.isnull().any().describe()}")
-print(f"  测试集缺失值总数: {test_df.isnull().any().describe()}")
+if __name__ == "__main__":
+    print("\n1.2 检查缺失值")
+    print(f"  训练集缺失值总数: {train_df.isnull().any().describe()}")
+    print(f"  测试集缺失值总数: {test_df.isnull().any().describe()}")
 
 
 # ============================================================
@@ -53,9 +55,10 @@ X_test = test_df.values                           # (28000, 784)
 X = X / 255.0
 X_test = X_test / 255.0
 
-print("\n1.3 归一化")
-print(f"  X 范围: [{X.min():.2f}, {X.max():.2f}]")
-print(f"  X_test 范围: [{X_test.min():.2f}, {X_test.max():.2f}]")
+if __name__ == "__main__":
+    print("\n1.3 归一化")
+    print(f"  X 范围: [{X.min():.2f}, {X.max():.2f}]")
+    print(f"  X_test 范围: [{X_test.min():.2f}, {X_test.max():.2f}]")
 
 
 # ============================================================
@@ -64,9 +67,10 @@ print(f"  X_test 范围: [{X_test.min():.2f}, {X_test.max():.2f}]")
 X = X.reshape(-1, 28, 28, 1)
 X_test = X_test.reshape(-1, 28, 28, 1)
 
-print("\n1.4 重塑维度")
-print(f"  X 形状: {X.shape}")         # (42000, 28, 28, 1)
-print(f"  X_test 形状: {X_test.shape}")  # (28000, 28, 28, 1)
+if __name__ == "__main__":
+    print("\n1.4 重塑维度")
+    print(f"  X 形状: {X.shape}")
+    print(f"  X_test 形状: {X_test.shape}")
 
 
 # ============================================================
@@ -79,9 +83,10 @@ X_train, X_val, y_train, y_val = train_test_split(
     random_state=2          # 与 Ghouzam 教程一致
 )
 
-print("\n1.5 拆分训练/验证集")
-print(f"  训练集 X: {X_train.shape}, y: {y_train.shape}")
-print(f"  验证集 X: {X_val.shape},   y: {y_val.shape}")
+if __name__ == "__main__":
+    print("\n1.5 拆分训练/验证集")
+    print(f"  训练集 X: {X_train.shape}, y: {y_train.shape}")
+    print(f"  验证集 X: {X_val.shape},   y: {y_val.shape}")
 
 
 # ============================================================
@@ -136,13 +141,14 @@ train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 val_loader   = DataLoader(val_dataset,   batch_size=BATCH_SIZE, shuffle=False)
 test_loader  = DataLoader(test_dataset,  batch_size=BATCH_SIZE, shuffle=False)
 
-print("\n1.6 构建 DataLoader")
-print(f"  train_loader: {len(train_loader)} batches")
-print(f"  val_loader:   {len(val_loader)} batches")
-print(f"  test_loader:  {len(test_loader)} batches")
+if __name__ == "__main__":
+    print("\n1.6 构建 DataLoader")
+    print(f"  train_loader: {len(train_loader)} batches")
+    print(f"  val_loader:   {len(val_loader)} batches")
+    print(f"  test_loader:  {len(test_loader)} batches")
 
-# 验证一个 batch
-sample_img, sample_label = next(iter(train_loader))
-print(f"\n  验证 batch: 图像形状 = {sample_img.shape}, 标签形状 = {sample_label.shape}")
-print(f"  标签范围: [{sample_label.min()}, {sample_label.max()}]")
-print("=" * 50)
+    # 验证一个 batch
+    sample_img, sample_label = next(iter(train_loader))
+    print(f"\n  验证 batch: 图像形状 = {sample_img.shape}, 标签形状 = {sample_label.shape}")
+    print(f"  标签范围: [{sample_label.min()}, {sample_label.max()}]")
+    print("=" * 50)
