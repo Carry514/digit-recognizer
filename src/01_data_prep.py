@@ -13,6 +13,7 @@
 
 import numpy as np
 import pandas as pd
+import os
 from sklearn.model_selection import train_test_split
 
 import torch
@@ -23,7 +24,9 @@ from torchvision import transforms
 # ============================================================
 # 1.1 加载数据
 # ============================================================
-DATA_DIR = "../data/"
+# 根据脚本文件位置计算 data/ 目录（不论从哪里 import 都能正确找到）
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(os.path.dirname(_SCRIPT_DIR), "data") + os.sep
 train_df = pd.read_csv(DATA_DIR + "train.csv")
 test_df  = pd.read_csv(DATA_DIR + "test.csv")
 
