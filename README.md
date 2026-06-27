@@ -1,6 +1,6 @@
 # Digit Recognizer
 
-手写数字识别（MNIST）— 基于 Kaggle 教学 notebook 的课程设计，CNN 模型准确率 99.5%+
+手写数字识别（MNIST）— 基于 Kaggle 教学 notebook 的课程设计，Kaggle 得分 0.99482（Top 4%）
 
 ## 项目简介
 
@@ -27,7 +27,8 @@ digit-recognizer/
 ├── src/                    # 源代码
 │   ├── 01_data_prep.py     # 数据加载与预处理
 │   ├── 02_model.py         # CNN 模型定义、训练与保存
-│   └── 03_evaluate.py      # 模型评估与错误分析
+│   ├── 03_evaluate.py      # 模型评估与错误分析
+│   └── 04_predict.py       # Kaggle 测试集预测与提交文件生成
 ├── docs/                   # 文档
 │   ├── tutorial_guide.md   # 教程精读笔记（中英双语）
 │   ├── plan.md             # 实现计划
@@ -59,6 +60,9 @@ uv run python src/02_model.py
 
 # 5. 评估结果
 uv run python src/03_evaluate.py
+
+# 6. 生成 Kaggle 提交文件
+uv run python src/04_predict.py
 ```
 
 ## 结果
@@ -67,7 +71,8 @@ uv run python src/03_evaluate.py
 |------|------|
 | 验证集准确率 | **99.52%** |
 | 验证集错误率 | 0.48% |
-| 测试集准确率 | 99.5%+ |
+| Kaggle 得分 | **0.99482**（Top 4%） |
+| Kaggle 排名 | ~130/4000+ |
 
 ## 许可
 
