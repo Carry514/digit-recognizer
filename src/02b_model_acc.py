@@ -104,10 +104,10 @@ criterion = nn.CrossEntropyLoss()
 # 2.3 训练循环
 # ============================================================
 EPOCHS = 30
-PATIENCE = 5            # EarlyStopping 耐心值
+PATIENCE = 8            # EarlyStopping 耐心值（LR 衰减后需更多时间见效）
 
-best_val_loss = float('inf')
 best_val_acc = 0.0
+best_val_loss = float('inf')
 patience_counter = 0
 
 # 记录历史，用于画曲线
@@ -159,7 +159,11 @@ for epoch in range(1, EPOCHS + 1):
     history['val_acc'].append(val_acc)
 
     # 学习率调度（监控验证准确率）
+    old_lr = optimizer.param_groups[0]['lr']
     scheduler.step(val_acc)
+    new_lr = optimizer.param_groups[0]['lr']
+    if new_lr < old_lr:
+        patience_counter = 0  # LR 衰减后重置耐心值，给新 LR 生效时间
 
     # 打印进度
     current_lr = optimizer.param_groups[0]['lr']
@@ -173,10 +177,10 @@ for epoch in range(1, EPOCHS + 1):
     if val_acc > best_val_acc:
         best_val_acc = val_acc
         os.makedirs("../outputs", exist_ok=True)
-        torch.save(model.state_dict(), "../outputs/model_best.pth")
+        torch.save(model.state_dict(), "../outputs/model_acc_best.pth")
         print(f"  ✅ 保存最优模型 (val_acc={best_val_acc:.4f})")
 
-    # ---- EarlyStopping（val_loss 不创新低才停） ----
+    # ---- EarlyStopping（val_loss 不创新低才停，避免 acc 提前卡住） ----
     if val_loss < best_val_loss:
         best_val_loss = val_loss
         patience_counter = 0
@@ -209,6 +213,6 @@ ax2.legend(loc='best')
 ax2.set_title('Validation Accuracy')
 
 plt.tight_layout()
-plt.savefig("../outputs/training_curves.png", dpi=150)
+plt.savefig("../outputs/training_curves_acc.png", dpi=150)
 plt.show()
-print("训练曲线已保存到 outputs/training_curves.png")
+print("训练曲线已保存到 outputs/training_curves_acc.png")
