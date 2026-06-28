@@ -653,7 +653,7 @@ pred = argmax(all_probs / len(models))
 | TTA 测试时增强 | 0.99439 | 反而降低 |
 | 2 模型 Ensemble（同切分） | 0.99467 | 分歧不够 |
 | Acc 保存版单模型 | 0.99450 | 不如原始 |
-| **CV 3 模型集成** | ⏳ 待测试 | 预期最高 |
+| **CV 3 模型集成** | 0.99457 | 错误互补但未超基线 |
 
 ### 11.7 产出文件全景
 
@@ -663,3 +663,5 @@ pred = argmax(all_probs / len(models))
 | 02b/03b/04b (acc) | model_acc_best.pth | confusion_matrix_acc.png | submission_acc.csv |
 | 02_cv + 04_cv | model_rs2/42/100.pth | — | submission_cv.csv |
 | 04_ensemble | — | — | submission_ensemble.csv |
+
+> **结论**：所有优化方案均未能超越原始单模型（0.99482）。该分数可能是当前 CNN 架构的上限，单次训练的随机性（权重初始化、数据增强顺序）对最终得分的影响比集成策略更大。
