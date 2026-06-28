@@ -26,22 +26,26 @@
 digit-recognizer/
 ├── src/                    # 源代码
 │   ├── 01_data_prep.py     # 数据加载与预处理
-│   ├── 02_model.py         # CNN 模型定义、训练与保存
-│   ├── 03_evaluate.py      # 模型评估与错误分析
-│   └── 04_predict.py       # Kaggle 测试集预测与提交文件生成
+│   ├── 02_model.py         # CNN 训练（val_acc 最优保存）
+│   ├── 03_evaluate.py      # 混淆矩阵 + 错误分析
+│   ├── 04_predict.py       # 预测 + 生成 submission.csv
+│   ├── 01_data_prep_cv.py  # CV 版数据准备（导出 X_full）
+│   ├── 02b_model_acc.py    # acc 版训练（patience=8）
+│   ├── 02_cv_train.py      # 3 种子交叉验证训练
+│   ├── 03b_evaluate_acc.py # acc 版评估
+│   ├── 04b_predict_acc.py  # acc 版预测
+│   ├── 04_ensemble.py      # 2 模型集成预测
+│   └── 04_cv_ensemble.py   # CV 3 模型集成预测
 ├── docs/                   # 文档
-│   ├── tutorial_guide.md   # 实战教学文档
-│   ├── tutorial_bilingual.md # 教程双语对照
-│   ├── plan.md             # 实现计划
-│   ├── 2026-06-26-digit-recognizer-design.md
-│   └── introduction-to-cnn-keras-0-997-top-6.ipynb  # 原始教程
-├── data/                   # 数据集（不上传 Git）
-│   ├── train.csv
-│   ├── test.csv
-│   └── sample_submission.csv
-├── outputs/                # 输出（不上传 Git）
-├── pyproject.toml          # 项目配置与依赖
-└── README.md
+├── data/                   # 数据集（Git 忽略）
+├── outputs/                # 产出（Git 忽略）
+│   ├── model_best.pth      # 最优模型权重
+│   ├── training_curves.png # 训练曲线
+│   ├── confusion_matrix.png
+│   ├── error_samples.png
+│   ├── submission.csv      # Kaggle 提交文件
+│   └── ...
+└── report/                 # 报告生成脚本（Git 忽略）
 ```
 
 ## 快速开始
@@ -70,10 +74,23 @@ uv run python src/04_predict.py
 
 | 指标 | 数值 |
 |------|------|
-| 验证集准确率 | **99.52%** |
-| 验证集错误率 | 0.48% |
-| Kaggle 得分 | **0.99482** |
+| 训练最高 val_acc | **99.64%** |
+| 验证集准确率 | 99.52% |
+| 验证集错误率 | 0.48% (20/4200) |
+| **Kaggle 得分** | **0.99482** |
 | Kaggle 排名 | 249 / 1533 (前 16%) |
+
+### 优化方案对比
+
+| 方案 | Kaggle 得分 | 说明 |
+|------|------------|------|
+| **原始单模型** | **0.99482** | 基准线，最高 |
+| TTA 测试时增强 | 0.99439 | 引入噪声 |
+| Acc 保存版 | 0.99450 | 不如原始 |
+| 2 模型 Ensemble | 0.99467 | 错误重叠 |
+| 3 模型 CV Ensemble | 0.99457 | 互补但未超基线 |
+
+> 所有优化方案均未能超越原始单模型。0.99482 可能是当前 CNN 架构的上限。
 
 ## 许可
 
